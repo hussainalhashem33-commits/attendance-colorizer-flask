@@ -5,9 +5,11 @@ from werkzeug.utils import secure_filename
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 import tempfile
+from serverless_wsgi import handle
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+template_dir = os.path.abspath('../../templates')
+app = Flask(__name__, template_folder=template_dir)
+app.config['UPLOAD_FOLDER'] = '/tmp/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload size
 
 # Ensure upload directory exists
@@ -79,5 +81,5 @@ def upload_file():
 
     return render_template('index.html', error='Invalid file type. Please upload an XLSX file.')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def handler(event, context):
+    return handle(app, event, context)
