@@ -51,7 +51,7 @@ def process_xlsx(file_path):
 def index():
     return render_template('index.html')
 
-@app.route('/upload', methods:['POST'])
+@app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         return render_template('index.html', error='No file part')
@@ -74,10 +74,10 @@ def upload_file():
             processed_file_path,
             as_attachment=True,
             download_name=filename,
-            mimetype:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
-    return render_template('index.html', error:'Invalid file type. Please upload an XLSX file.')
+    return render_template('index.html', error='Invalid file type. Please upload an XLSX file.')
 
 if __name__ == '__main__':
     app.run(debug=True)
